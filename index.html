@@ -21,10 +21,8 @@
         /* Header */
         header {
             height: 50px;
-            position: relative;
             background-color: red;
             color: white;
-            font-family: Arial, Helvetica, sans-serif;
             border-radius: 20px;
             display: flex;
             align-items: center;
@@ -44,69 +42,54 @@
             position: relative;
         }
 
-        header nav a::after {
-            content: "";
-            position: absolute;
-            width: 0;
-            height: 2px;
-            background-color: white;
-            bottom: -5px;
-            left: 0;
-            transition: width 0.3s;
+        header nav a:hover {
+            text-decoration: underline;
         }
 
-        header nav a:hover::after {
-            width: 100%;
-        }
-
-        /* Content Areas */
-        .content-section {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background: #f8f8f8;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-        .content-section h2 {
-            text-align: center;
-            color: red;
-        }
-        .content-section p {
-            font-size: 16px;
-            color: #333;
-            line-height: 1.5;
-        }
-
-        /* Countdown Timer */
-        .countdown-box {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.8);
+        /* Notification Button */
+        .notify-btn {
+            background: #008CBA;
             color: white;
-            padding: 12px 18px;
-            border-radius: 15px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
             font-size: 14px;
+            margin: 20px;
+            display: block;
             text-align: center;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease-in-out;
         }
 
-        .countdown-box:hover {
-            transform: scale(1.05);
+        .notify-btn:hover {
+            background: #005f73;
         }
 
-        .countdown-box h3 {
-            margin: 0;
-            font-size: 12px;
-            color: cyan;
+        /* Sections */
+        .section {
+            text-align: center;
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        .countdown-box p {
-            margin: 5px 0 0;
-            font-size: 18px;
+        .section h1 {
+            color: #000;
             font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .section p {
+            color: #333;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            background-color: #ddd;
+            padding: 10px;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -120,106 +103,89 @@
         </nav>
     </header>
 
-    <div class="countdown-box">
-        <h3>Nintendo Direct</h3>
-        <p id="countdown">Loading...</p>
+    <div class="section" id="info">
+        <h1>Welcome</h1>
+        <p>This site has everything you need to know about the upcoming Nintendo Switch 2.</p>
     </div>
 
-    <section id="info" class="content-section">
-        <h2>General Information</h2>
-        <p>Everything you need to know about the upcoming Nintendo Switch 2.</p>
-    </section>
+    <div class="section" id="leaks">
+        <h1>Leaks & Rumors</h1>
+        <p>Multiple sources indicate that the Nintendo Switch 2 will feature an improved OLED screen, enhanced performance, and a possible new docking system.</p>
+    </div>
 
-    <section id="leaks" class="content-section">
-        <h2>Leaks and Rumors</h2>
-        <p>Latest leaks and rumors surrounding the Nintendo Switch 2.</p>
-    </section>
+    <div class="section" id="updates">
+        <h1>Latest Nintendo Updates</h1>
+        <p>Experts predict an announcement in late 2024. Keep an eye on this section for official news and updates.</p>
+    </div>
 
-    <section id="updates" class="content-section">
-        <h2>Official Updates</h2>
-        <p>Official statements and updates from Nintendo about the Switch 2.</p>
-    </section>
-
-    <section id="features" class="content-section">
-        <h2>New Features</h2>
-        <p>A breakdown of all the expected and rumored new features.</p>
-    </section>
+    <!-- Push Notification Button -->
+    <button class="notify-btn" id="notifyBtn">Enable Notifications</button>
 
     <footer>
         &copy; 2025 Nintendo Switch 2 Fan Page | All Rights Reserved
     </footer>
 
-
     <script>
+        const serverUrl = "https://your-ngrok-url.ngrok-free.app"; // 🔄 Replace with actual ngrok URL
+
         if ('serviceWorker' in navigator && 'PushManager' in window) {
             navigator.serviceWorker.register('/sw.js')
                 .then(registration => {
-                    console.log('Service Worker registered:', registration);
-                    requestNotificationPermission(registration);
+                    console.log('Service Worker Registered', registration);
                 })
-                .catch(error => console.error('Service Worker registration failed:', error));
+                .catch(error => {
+                    console.error('Service Worker Registration Failed', error);
+                });
         }
 
-        function requestNotificationPermission(registration) {
-            Notification.requestPermission().then(permission => {
-                if (permission === "granted") {
-                    console.log("Notifications allowed.");
-                    subscribeUserToPush(registration);
-                } else {
-                    console.log("Notifications denied.");
-                }
-            });
-        }
-
-        async function subscribeUserToPush(registration) {
+        async function subscribeToPushNotifications() {
             try {
-                const response = await fetch('/push/publicKey');
-                if (!response.ok) throw new Error('Failed to get public key');
+                // Request notification permission
+                const permission = await Notification.requestPermission();
+                if (permission !== "granted") {
+                    alert("You need to allow notifications.");
+                    return;
+                }
 
-                const applicationServerKey = await response.text();
-                const convertedKey = urlBase64ToUint8Array(applicationServerKey);
+                // Register service worker
+                const registration = await navigator.serviceWorker.ready;
 
+                // Fetch VAPID public key
+                const response = await fetch(`${serverUrl}/vapidPublicKey`);
+                const data = await response.json();
+                const vapidPublicKey = data.publicKey;
+
+                // Convert VAPID key to Uint8Array
+                function urlBase64ToUint8Array(base64String) {
+                    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+                    const base64 = (base64String + padding)
+                        .replace(/\-/g, '+')
+                        .replace(/_/g, '/');
+                    const rawData = window.atob(base64);
+                    return new Uint8Array([...rawData].map(char => char.charCodeAt(0)));
+                }
+
+                const applicationServerKey = urlBase64ToUint8Array(vapidPublicKey);
                 const subscription = await registration.pushManager.subscribe({
                     userVisibleOnly: true,
-                    applicationServerKey: convertedKey
+                    applicationServerKey
                 });
 
-                console.log("New subscription:", subscription);
-
-                await fetch('/push/subscribe', {
-                    method: 'POST',
-                    body: JSON.stringify(subscription),
-                    headers: { 'Content-Type': 'application/json' }
+                // Send subscription to backend
+                await fetch(`${serverUrl}/subscribe`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(subscription)
                 });
+
+                alert("Subscribed to notifications!");
 
             } catch (error) {
-                console.error("Push subscription failed:", error);
+                console.error("Subscription failed", error);
             }
         }
 
-        function urlBase64ToUint8Array(base64String) {
-            const padding = '='.repeat((4 - base64String.length % 4) % 4);
-            const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
-            const rawData = window.atob(base64);
-            return new Uint8Array([...rawData].map(char => char.charCodeAt(0)));
-        }
-
-        function updateCountdown() {
-            const eventDate = new Date("April 2, 2025 00:00:00").getTime();
-            const now = new Date().getTime();
-            const difference = eventDate - now;
-
-            if (difference <= 0) {
-                document.getElementById("countdown").innerText = "LIVE NOW!";
-                return;
-            }
-
-            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-            document.getElementById("countdown").innerText = days + " days";
-        }
-
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
+        document.getElementById("notifyBtn").addEventListener("click", subscribeToPushNotifications);
     </script>
 </body>
 </html>
