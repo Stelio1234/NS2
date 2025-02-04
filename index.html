@@ -139,6 +139,7 @@
             text-align: left; /* Keeps text aligned properly under bullet points */
             margin: 5px 0; /* Adds spacing between items */
         }
+
     </style>
 </head>
     <div id="countdown-container">
@@ -177,7 +178,7 @@
             <li>Storage: 256 GB of onboard storage</li>
         </ul>
     </div>
-
+    
     <div class="section" id="updates">
         <h1>Latest Nintendo Updates</h1>
         <p>AS of 2/4/25 there are some updates about the switch 2. On 1/26/24 The Nintendo od America posted the release video for the Nintendo Switch, along with some more info. We already know that the switch to will launch with Mario Kart 9. As of now they have not sent anything else out to the public. We will most likely find out more at Nintendo Direct on April 2. </p>
@@ -186,15 +187,12 @@
     <!-- Push Notification Button -->
     <button class="notify-btn" id="notifyBtn">Enable Notifications</button>
 
-    <!-- Send Notification Button -->
-    <button class="notify-btn" id="sendNotificationBtn">Send Notification</button>
-
     <footer>
         &copy; 2025 Nintendo Switch 2 Fan Page | All Rights Reserved
     </footer>
 
     <script>
-        const serverUrl = "http://<your-local-ip>:5000";  // Replace with your local IP address
+        const serverUrl = "http://localhost:5000"; // Update with your backend server URL
 
         if ('serviceWorker' in navigator && 'PushManager' in window) {
             navigator.serviceWorker.register('/sw.js')
@@ -208,18 +206,22 @@
 
         async function subscribeToPushNotifications() {
             try {
+                // Request notification permission
                 const permission = await Notification.requestPermission();
                 if (permission !== "granted") {
                     alert("You need to allow notifications.");
                     return;
                 }
 
+                // Register service worker
                 const registration = await navigator.serviceWorker.ready;
 
+                // Fetch VAPID public key
                 const response = await fetch(`${serverUrl}/vapidPublicKey`);
                 const data = await response.json();
                 const vapidPublicKey = data.publicKey;
 
+                // Convert VAPID key to Uint8Array
                 function urlBase64ToUint8Array(base64String) {
                     const padding = '='.repeat((4 - base64String.length % 4) % 4);
                     const base64 = (base64String + padding)
@@ -235,6 +237,7 @@
                     applicationServerKey
                 });
 
+                // Send subscription to backend
                 await fetch(`${serverUrl}/subscribe`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -242,41 +245,13 @@
                 });
 
                 alert("Subscribed to notifications!");
-                localStorage.setItem('subscription', JSON.stringify(subscription));  // Save subscription
+
             } catch (error) {
                 console.error("Subscription failed", error);
             }
         }
 
-        async function sendPushNotification() {
-            try {
-                const subscription = JSON.parse(localStorage.getItem('subscription'));
-
-                if (!subscription) {
-                    alert("No subscription found!");
-                    return;
-                }
-
-                const response = await fetch(`${serverUrl}/send-notification`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(subscription)
-                });
-
-                const data = await response.json();
-                if (response.ok) {
-                    alert("Notification sent!");
-                } else {
-                    alert("Error sending notification: " + data.message);
-                }
-            } catch (error) {
-                console.error("Error:", error);
-                alert("Error sending notification.");
-            }
-        }
-
         document.getElementById("notifyBtn").addEventListener("click", subscribeToPushNotifications);
-        document.getElementById("sendNotificationBtn").addEventListener("click", sendPushNotification);
 
         function startCountdown(targetDate) {
             function updateCountdown() {
@@ -293,15 +268,17 @@
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 
-                document.getElementById("days").textContent = days < 10 ? "0" + days : days;
-                document.getElementById("hours").textContent = hours < 10 ? "0" + hours : hours;
-                document.getElementById("minutes").textContent = minutes < 10 ? "0" + minutes : minutes;
+                document.getElementById("days").innerText = days.toString().padStart(2, '0');
+                document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+                document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
             }
 
+            updateCountdown(); 
             const interval = setInterval(updateCountdown, 1000);
         }
 
-        const targetDate = new Date("April 2, 2025 00:00:00").getTime();
+        // Set the target date for the Nintendo Direct
+        const targetDate = new Date("2025-04-02 12:00:00").getTime();
         startCountdown(targetDate);
     </script>
 </body>
