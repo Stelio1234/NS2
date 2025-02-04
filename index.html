@@ -28,7 +28,7 @@
             align-items: center;
             justify-content: space-between;
             padding: 0 20px;
-            top: 20px;
+            
         }
 
         header .title {
@@ -49,7 +49,7 @@
 
         /* Notification Button */
         .notify-btn {
-            background: #008CBA;
+            background: red;
             color: white;
             padding: 10px 15px;
             border: none;
@@ -62,7 +62,7 @@
         }
 
         .notify-btn:hover {
-            background: #005f73;
+            background: red;
         }
 
         /* Sections */
@@ -148,12 +148,12 @@
 
     <div class="section" id="leaks">
         <h1>Leaks & Rumors</h1>
-        <p>Multiple sources indicate that the Nintendo Switch 2 will feature an improved OLED screen, enhanced performance, and a possible new docking system.</p>
+        <p>Threr are many rumors going around about the Switch 2, such as specs, launch titles, price etc.  </p>
     </div>
 
     <div class="section" id="updates">
         <h1>Latest Nintendo Updates</h1>
-        <p>Experts predict an announcement in late 2024. Keep an eye on this section for official news and updates.</p>
+        <p>AS of 2/4/25 there are some updates about the switch 2. On 1/26/24 The Nintendo od America posted the release video for the Nintendo Switch, along with some more info. We already know that the switch to will launch with Mario Kart 9. As of now they have not sent anything else out to the public. We will most likely find out more at Nintendo Direct on April 2. </p>
     </div>
 
     <!-- Push Notification Button -->
@@ -164,7 +164,7 @@
     </footer>
 
     <script>
-        const serverUrl = "https://your-ngrok-url.ngrok-free.app"; // 🔄 Replace with actual ngrok URL
+        const serverUrl = "https://your-ngrok-url.ngrok-free.app"; 
 
         if ('serviceWorker' in navigator && 'PushManager' in window) {
             navigator.serviceWorker.register('/sw.js')
