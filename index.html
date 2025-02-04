@@ -93,6 +93,8 @@
         }
     </style>
 </head>
+    <h1>Countdown Timer</h1>
+    <p id="countdown">Loading...</p>
 <body>
     <header>
         <div class="title">Nintendo Switch 2</div>
@@ -186,6 +188,34 @@
         }
 
         document.getElementById("notifyBtn").addEventListener("click", subscribeToPushNotifications);
+
+        function startCountdown(targetDate) {
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+
+                if (distance < 0) {
+                    document.getElementById("countdown").innerHTML = "⏳ Time's up!";
+                    clearInterval(interval);
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById("countdown").innerHTML =
+                    `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }
+
+            updateCountdown(); // Initial call to avoid 1s delay
+            const interval = setInterval(updateCountdown, 1000);
+        }
+
+        // Set the target date (Change this to your desired date)
+        const targetDate = new Date("2025-12-31 23:59:59").getTime();
+        startCountdown(targetDate);
     </script>
 </body>
 </html>
