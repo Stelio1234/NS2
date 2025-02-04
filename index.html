@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nintendo Switch 2 - All You Need to Know</title>
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- iOS PWA Support -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Nintendo Switch 2">
+
+    <!-- Android PWA -->
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <style>
+        /* General Styles */
+        body {
+            background-color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        html {
+            height: 100%;
+        }
+
+        /* Header */
+        header {
+            height: 50px;
+            position: relative;
+            background-color: red;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        header .title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        header nav a {
+            margin-left: 15px;
+            color: white;
+            text-decoration: none;
+            position: relative;
+        }
+
+        header nav a::after {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: white;
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s;
+        }
+
+        header nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Countdown Timer */
+        .countdown-box {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 15px;
+            font-size: 14px;
+            text-align: center;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .countdown-box:hover {
+            transform: scale(1.05);
+        }
+
+        .countdown-box h3 {
+            margin: 0;
+            font-size: 12px;
+            color: cyan;
+        }
+
+        .countdown-box p {
+            margin: 5px 0 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* Sections */
+        .section {
+            text-align: center;
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-in-out;
+        }
+
+        .section.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section h1 {
+            color: #000;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .section p {
+            color: #333;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            background-color: #ddd;
+            padding: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="title">Nintendo Switch 2</div>
+        <nav>
+            <a href="#info">Info</a>
+            <a href="#leaks">Leaks</a>
+            <a href="#updates">Nintendo Updates</a>
+        </nav>
+    </header>
+
+    <!-- Sections -->
+    <div class="section" id="info">
+        <h1>Welcome</h1>
+        <p>This site has everything you need to know about the upcoming Nintendo Switch 2.</p>
+    </div>
+
+    <div class="section" id="leaks">
+        <h1>Leaks & Rumors</h1>
+        <p>Multiple sources indicate that the Nintendo Switch 2 will feature an improved OLED screen, enhanced performance, and a possible new docking system.</p>
+    </div>
+
+    <div class="section" id="updates">
+        <h1>Latest Nintendo Updates</h1>
+        <p>Nintendo has remained tight-lipped about the official release date, but experts predict an announcement in late 2024.</p>
+    </div>
+
+    <!-- New Sections -->
+    <div class="section" id="features">
+        <h1>Features & Improvements</h1>
+        <p>The new console is rumored to have better battery life, enhanced Joy-Cons, and a more powerful GPU for 4K gaming.</p>
+    </div>
+
+    <div class="section" id="pricing">
+        <h1>Expected Pricing</h1>
+        <p>Industry insiders suggest the price will range from $399 to $499 depending on the model and storage options.</p>
+    </div>
+
+    <div class="section" id="release">
+        <h1>Release Date</h1>
+        <p>The Nintendo Switch 2 is expected to launch in 2025, with pre-orders likely starting in late 2024.</p>
+    </div>
+
+    <!-- Countdown Timer Box -->
+    <div class="countdown-box">
+        <h3>Nintendo Direct</h3>
+        <p id="countdown">Loading...</p>
+    </div>
+
+    <footer>
+        &copy; 2025 Nintendo Switch 2 Fan Page | All Rights Reserved
+    </footer>
+
+    <script>
+        // Countdown Timer
+        function updateCountdown() {
+            const eventDate = new Date("April 2, 2025 00:00:00").getTime();
+            const now = new Date().getTime();
+            const difference = eventDate - now;
+
+            if (difference <= 0) {
+                document.getElementById("countdown").innerText = "LIVE NOW!";
+                return;
+            }
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            document.getElementById("countdown").innerText = days + " days";
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Scroll Animation for Sections
+        function revealSections() {
+            const sections = document.querySelectorAll('.section');
+            const triggerBottom = window.innerHeight * 0.85;
+
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                if (sectionTop < triggerBottom) {
+                    section.classList.add('show');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', revealSections);
+        revealSections();
+    </script>
+
+</body>
+</html>
