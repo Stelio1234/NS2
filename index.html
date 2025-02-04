@@ -59,6 +59,25 @@
             width: 100%;
         }
 
+        /* Content Areas */
+        .content-section {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f8f8f8;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .content-section h2 {
+            text-align: center;
+            color: red;
+        }
+        .content-section p {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.5;
+        }
+
         /* Countdown Timer */
         .countdown-box {
             position: fixed;
@@ -106,9 +125,30 @@
         <p id="countdown">Loading...</p>
     </div>
 
+    <section id="info" class="content-section">
+        <h2>General Information</h2>
+        <p>Everything you need to know about the upcoming Nintendo Switch 2.</p>
+    </section>
+
+    <section id="leaks" class="content-section">
+        <h2>Leaks and Rumors</h2>
+        <p>Latest leaks and rumors surrounding the Nintendo Switch 2.</p>
+    </section>
+
+    <section id="updates" class="content-section">
+        <h2>Official Updates</h2>
+        <p>Official statements and updates from Nintendo about the Switch 2.</p>
+    </section>
+
+    <section id="features" class="content-section">
+        <h2>New Features</h2>
+        <p>A breakdown of all the expected and rumored new features.</p>
+    </section>
+
     <footer>
         &copy; 2025 Nintendo Switch 2 Fan Page | All Rights Reserved
     </footer>
+
 
     <script>
         if ('serviceWorker' in navigator && 'PushManager' in window) {
