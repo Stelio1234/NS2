@@ -4,18 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nintendo Switch 2 - All You Need to Know</title>
-    
-    <!-- Web App Manifest -->
     <link rel="manifest" href="manifest.json">
-
-    <!-- iOS PWA Support -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Nintendo Switch 2">
-
-    <!-- Android PWA -->
-    <meta name="mobile-web-app-capable" content="yes">
-    
     <style>
         /* General Styles */
         body {
@@ -139,7 +128,6 @@
     </style>
 </head>
 <body>
-
     <header>
         <div class="title">Nintendo Switch 2</div>
         <nav>
@@ -149,7 +137,6 @@
         </nav>
     </header>
 
-    <!-- Sections -->
     <div class="section" id="info">
         <h1>Welcome</h1>
         <p>This site has everything you need to know about the upcoming Nintendo Switch 2.</p>
@@ -157,28 +144,12 @@
 
     <div class="section" id="leaks">
         <h1>Leaks & Rumors</h1>
-        <p>Multiple sources indicate that the Nintendo Switch 2 will feature an improved OLED screen, enhanced performance, and a possible new docking system.</p>
+        <p>Multiple sources indicate that the Nintendo Switch 2 will feature an improved OLED screen, enhanced performance, and a possible new docking system. Stay tuned for more leaks as they come in!</p>
     </div>
 
     <div class="section" id="updates">
         <h1>Latest Nintendo Updates</h1>
-        <p>Nintendo has remained tight-lipped about the official release date, but experts predict an announcement in late 2024.</p>
-    </div>
-
-    <!-- New Sections -->
-    <div class="section" id="features">
-        <h1>Features & Improvements</h1>
-        <p>The new console is rumored to have better battery life, enhanced Joy-Cons, and a more powerful GPU for 4K gaming.</p>
-    </div>
-
-    <div class="section" id="pricing">
-        <h1>Expected Pricing</h1>
-        <p>Industry insiders suggest the price will range from $399 to $499 depending on the model and storage options.</p>
-    </div>
-
-    <div class="section" id="release">
-        <h1>Release Date</h1>
-        <p>The Nintendo Switch 2 is expected to launch in 2025, with pre-orders likely starting in late 2024.</p>
+        <p>Nintendo has remained tight-lipped about the official release date, but experts predict an announcement in late 2024. Keep an eye on this section for official news and updates.</p>
     </div>
 
     <!-- Countdown Timer Box -->
@@ -192,7 +163,22 @@
     </footer>
 
     <script>
-        // Countdown Timer
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js');
+        }
+
+        function requestNotificationPermission() {
+            if ("Notification" in window && "serviceWorker" in navigator) {
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+                        console.log("Notifications allowed.");
+                    }
+                });
+            }
+        }
+
+        window.onload = requestNotificationPermission;
+
         function updateCountdown() {
             const eventDate = new Date("April 2, 2025 00:00:00").getTime();
             const now = new Date().getTime();
@@ -210,7 +196,6 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // Scroll Animation for Sections
         function revealSections() {
             const sections = document.querySelectorAll('.section');
             const triggerBottom = window.innerHeight * 0.85;
@@ -226,6 +211,5 @@
         window.addEventListener('scroll', revealSections);
         revealSections();
     </script>
-
 </body>
 </html>
