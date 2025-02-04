@@ -89,42 +89,6 @@
             font-size: 18px;
             font-weight: bold;
         }
-
-        /* Sections */
-        .section {
-            text-align: center;
-            padding: 40px 20px;
-            max-width: 800px;
-            margin: 0 auto;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease-in-out;
-        }
-
-        .section.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .section h1 {
-            color: #000;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .section p {
-            color: #333;
-            font-size: 18px;
-            line-height: 1.6;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            background-color: #ddd;
-            padding: 10px;
-            font-size: 14px;
-        }
     </style>
 </head>
 <body>
@@ -137,22 +101,6 @@
         </nav>
     </header>
 
-    <div class="section" id="info">
-        <h1>Welcome</h1>
-        <p>This site has everything you need to know about the upcoming Nintendo Switch 2.</p>
-    </div>
-
-    <div class="section" id="leaks">
-        <h1>Leaks & Rumors</h1>
-        <p>Multiple sources indicate that the Nintendo Switch 2 will feature an improved OLED screen, enhanced performance, and a possible new docking system. Stay tuned for more leaks as they come in!</p>
-    </div>
-
-    <div class="section" id="updates">
-        <h1>Latest Nintendo Updates</h1>
-        <p>Nintendo has remained tight-lipped about the official release date, but experts predict an announcement in late 2024. Keep an eye on this section for official news and updates.</p>
-    </div>
-
-    <!-- Countdown Timer Box -->
     <div class="countdown-box">
         <h3>Nintendo Direct</h3>
         <p id="countdown">Loading...</p>
@@ -167,46 +115,46 @@
             navigator.serviceWorker.register('/sw.js')
                 .then(registration => {
                     console.log('Service Worker registered:', registration);
-
-                    // Request Notification Permission
-                    Notification.requestPermission().then(permission => {
-                        if (permission === "granted") {
-                            console.log("Notifications allowed.");
-                            subscribeUserToPush(registration);
-                        } else {
-                            console.log("Notifications denied.");
-                        }
-                    });
+                    requestNotificationPermission(registration);
                 })
                 .catch(error => console.error('Service Worker registration failed:', error));
         }
 
-        function subscribeUserToPush(registration) {
-            registration.pushManager.getSubscription().then(subscription => {
-                if (subscription) {
-                    console.log("Already subscribed:", subscription);
-                    return subscription;
+        function requestNotificationPermission(registration) {
+            Notification.requestPermission().then(permission => {
+                if (permission === "granted") {
+                    console.log("Notifications allowed.");
+                    subscribeUserToPush(registration);
+                } else {
+                    console.log("Notifications denied.");
                 }
-
-                fetch('/push/publicKey')
-                    .then(response => response.text())
-                    .then(applicationServerKey => {
-                        return registration.pushManager.subscribe({
-                            userVisibleOnly: true,
-                            applicationServerKey: urlBase64ToUint8Array(applicationServerKey)
-                        });
-                    })
-                    .then(subscription => {
-                        console.log("New subscription:", subscription);
-
-                        fetch('/push/subscribe', {
-                            method: 'POST',
-                            body: JSON.stringify(subscription),
-                            headers: { 'Content-Type': 'application/json' }
-                        });
-                    })
-                    .catch(error => console.error("Failed to subscribe:", error));
             });
+        }
+
+        async function subscribeUserToPush(registration) {
+            try {
+                const response = await fetch('/push/publicKey');
+                if (!response.ok) throw new Error('Failed to get public key');
+
+                const applicationServerKey = await response.text();
+                const convertedKey = urlBase64ToUint8Array(applicationServerKey);
+
+                const subscription = await registration.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: convertedKey
+                });
+
+                console.log("New subscription:", subscription);
+
+                await fetch('/push/subscribe', {
+                    method: 'POST',
+                    body: JSON.stringify(subscription),
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+            } catch (error) {
+                console.error("Push subscription failed:", error);
+            }
         }
 
         function urlBase64ToUint8Array(base64String) {
@@ -232,21 +180,6 @@
 
         setInterval(updateCountdown, 1000);
         updateCountdown();
-
-        function revealSections() {
-            const sections = document.querySelectorAll('.section');
-            const triggerBottom = window.innerHeight * 0.85;
-
-            sections.forEach(section => {
-                const sectionTop = section.getBoundingClientRect().top;
-                if (sectionTop < triggerBottom) {
-                    section.classList.add('show');
-                }
-            });
-        }
-
-        window.addEventListener('scroll', revealSections);
-        revealSections();
     </script>
 </body>
 </html>
