@@ -91,15 +91,44 @@
             padding: 10px;
             font-size: 14px;
         }
-                #countdown {
-            font-size: 2rem;
+        #countdown-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        #title {
+            font-size: 1.2rem;
             font-weight: bold;
-            color: #ff3b3b;
+            margin-bottom: 10px;
+        }
+        .countdown {
+            display: flex;
+            gap: 10px;
+            font-size: 1.5rem;
+        }
+        .time-box {
+            background: #ff3b3b;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
         }
     </style>
 </head>
-    <h1>Countdown Timer</h1>
-    <p id="countdown">Loading...</p>
+    <div id="countdown-container">
+        <div id="title">Nintendo Direct</div>
+        <div class="countdown">
+            <div class="time-box"><span id="days">00</span>d</div>
+            <div class="time-box"><span id="hours">00</span>h</div>
+            <div class="time-box"><span id="minutes">00</span>m</div>
+        </div>
+    </div>
 <body>
     <header>
         <div class="title">Nintendo Switch 2</div>
@@ -194,13 +223,13 @@
 
         document.getElementById("notifyBtn").addEventListener("click", subscribeToPushNotifications);
 
-        function startCountdown(targetDate) {
+                function startCountdown(targetDate) {
             function updateCountdown() {
                 const now = new Date().getTime();
                 const distance = targetDate - now;
 
                 if (distance < 0) {
-                    document.getElementById("countdown").innerHTML = "⏳ Time's up!";
+                    document.getElementById("countdown-container").innerHTML = "⏳ Nintendo Direct is Live!";
                     clearInterval(interval);
                     return;
                 }
@@ -208,17 +237,17 @@
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                document.getElementById("countdown").innerHTML =
-                    `${days}d ${hours}h ${minutes}m ${seconds}s`;
+                document.getElementById("days").innerText = days.toString().padStart(2, '0');
+                document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+                document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
             }
 
-            updateCountdown(); // Initial call to avoid 1s delay
+            updateCountdown(); 
             const interval = setInterval(updateCountdown, 1000);
         }
 
-        // Set the target date (Change this to your desired date)
+        // Set the target date for the Nintendo Direct
         const targetDate = new Date("2025-12-31 23:59:59").getTime();
         startCountdown(targetDate);
     </script>
