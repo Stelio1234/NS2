@@ -121,6 +121,27 @@
             border-radius: 5px;
             font-weight: bold;
         }
+        .specs-container {
+            display: flex;
+            justify-content: center; /* Centers the list horizontally */
+            align-items: center; /* Centers content vertically if needed */
+            text-align: center;
+        }
+
+        .specs-list {
+            list-style-type: disc; /* Ensures bullet points are visible */
+            text-align: left; /* Aligns text to the left */
+            padding: 0;
+            margin: 0;
+        }
+
+        .specs-list li {
+            text-align: left; /* Keeps text aligned properly under bullet points */
+            margin: 5px 0; /* Adds spacing between items */
+        }
+
+
+
     </style>
 </head>
     <div id="countdown-container">
@@ -148,8 +169,20 @@
 
     <div class="section" id="leaks">
         <h1>Leaks & Rumors</h1>
-        <p>Threr are many rumors going around about the Switch 2, such as specs, launch titles, price etc.  </p>
+        <p>Threr are many rumors going around about the Switch 2, such as specs, launch titles, price etc. One thing people realy want to know are the specs. Below are the specs acording to leaks </p>
     </div>
+
+    <div class="specs-container">
+        <ul class="specs-list">
+            <li>CPU: Arm Cortex-A78C with eight cores</li>
+            <li>GPU: Nvidia T239 Ampere with 1534 CUDA cores, two RTX ray-tracing cores, and 48 Gen 3 Tensor cores</li>
+            <li>RAM: 12 GB of LPDDR5</li>
+            <li>Storage: 256 GB of onboard storage</li>
+        </ul>
+    </div>
+    >
+    
+    
 
     <div class="section" id="updates">
         <h1>Latest Nintendo Updates</h1>
