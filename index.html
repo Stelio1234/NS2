@@ -184,75 +184,11 @@
         <p>AS of 2/4/25 there are some updates about the switch 2. On 1/26/24 The Nintendo od America posted the release video for the Nintendo Switch, along with some more info. We already know that the switch to will launch with Mario Kart 9. As of now they have not sent anything else out to the public. We will most likely find out more at Nintendo Direct on April 2. </p>
     </div>
 
-    <!-- Push Notification Button -->
-    <button class="notify-btn" id="notifyBtn">Enable Notifications</button>
-
     <footer>
         &copy; 2025 Nintendo Switch 2 Fan Page | All Rights Reserved
     </footer>
 
     <script>
-        const serverUrl = "https://3705-72-185-107-138.ngrok-free.app/"; // Update with your backend server URL
-
-        if ('serviceWorker' in navigator && 'PushManager' in window) {
-            navigator.serviceWorker.register('/sw.js')
-                .then(registration => {
-                    console.log('Service Worker Registered', registration);
-                })
-                .catch(error => {
-                    console.error('Service Worker Registration Failed', error);
-                });
-        }
-
-        async function subscribeToPushNotifications() {
-            try {
-                // Request notification permission
-                const permission = await Notification.requestPermission();
-                if (permission !== "granted") {
-                    alert("You need to allow notifications.");
-                    return;
-                }
-
-                // Register service worker
-                const registration = await navigator.serviceWorker.ready;
-
-                // Fetch VAPID public key
-                const response = await fetch(`${serverUrl}/vapidPublicKey`);
-                const data = await response.json();
-                const vapidPublicKey = data.publicKey;
-
-                // Convert VAPID key to Uint8Array
-                function urlBase64ToUint8Array(base64String) {
-                    const padding = '='.repeat((4 - base64String.length % 4) % 4);
-                    const base64 = (base64String + padding)
-                        .replace(/\-/g, '+')
-                        .replace(/_/g, '/');
-                    const rawData = window.atob(base64);
-                    return new Uint8Array([...rawData].map(char => char.charCodeAt(0)));
-                }
-
-                const applicationServerKey = urlBase64ToUint8Array(vapidPublicKey);
-                const subscription = await registration.pushManager.subscribe({
-                    userVisibleOnly: true,
-                    applicationServerKey
-                });
-
-                // Send subscription to backend
-                await fetch(`${serverUrl}/subscribe`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(subscription)
-                });
-
-                alert("Subscribed to notifications!");
-
-            } catch (error) {
-                console.error("Subscription failed", error);
-            }
-        }
-
-        document.getElementById("notifyBtn").addEventListener("click", subscribeToPushNotifications);
-
         function startCountdown(targetDate) {
             function updateCountdown() {
                 const now = new Date().getTime();
