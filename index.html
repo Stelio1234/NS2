@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <title>Nintendo Switch 2</title>
     <link rel="stylesheet" href="style.css">
@@ -11,13 +10,12 @@
         html, body {
             overflow-x: hidden !important;
             width: 100%;
+            max-width: 100vw;
             margin: 0;
             padding: 0;
         }
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
             background-color: #f4f4f4;
             color: #333;
         }
@@ -30,12 +28,14 @@
         }
         .section {
             max-width: 900px;
+            width: 100%;
             margin: 30px auto;
             padding: 25px;
             background: white;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
             font-size: 1.1rem;
+            box-sizing: border-box;
         }
         .specs-container {
             margin-top: 20px;
@@ -67,7 +67,7 @@
             width: 100%;
             bottom: 0;
         }
-        h1, {
+        h1 {
             color: #000000;
         }
         ul {
@@ -88,25 +88,37 @@
             padding: 15px;
             border-radius: 8px;
             font-size: 18px;
-            text-align: center;
             border: none;
+            cursor: pointer;
             transition: background-color 0.3s ease;
         }
-        button :hover {
+        button:hover {
             background-color: rgb(75, 0, 0);
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 18px;
-            text-align: center;
-            border: none;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Mobile-specific adjustments */
+        @media (max-width: 600px) {
+            .section {
+                padding: 15px;
+            }
+
+            #countdown-container {
+                width: 90%;
+                right: 5%;
+                bottom: 10px;
+            }
+
+            button {
+                width: 100%;
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Nintendo Switch 2 </h1>
+        <h1>Nintendo Switch 2</h1>
     </header>
 
     <div class="section" id="info">
@@ -116,56 +128,32 @@
 
     <div class="section" id="leaks">
         <h1>Leaks & Rumors</h1>
-        <p>There has been a surge of rumors and leaks regarding the highly anticipated <strong>Nintendo Switch 2</strong>. Speculation surrounds its hardware specifications, launch titles, pricing, backward compatibility, and even potential release dates. While Nintendo has yet to confirm many details, industry insiders and leakers have provided some insight into what we might expect.</p>
-        <p>One of the most discussed aspects is the console's performance. With improvements in graphics, processing power, and storage, the Switch 2 is rumored to be a major step up from the Switch 1. Below are the leaked specifications based on credible sources:</p>
+        <p>There has been a surge of rumors and leaks regarding the highly anticipated <strong>Nintendo Switch 2</strong>. Speculation surrounds its hardware specifications, launch titles, pricing, backward compatibility, and potential release dates.</p>
         <div class="specs-container">
             <h2>Leaked Hardware Specifications</h2>
             <ul class="specs-list">
-                <li><strong>CPU:</strong> Arm Cortex-A78C with eight cores – a significant upgrade from the original Switch, promising better performance and efficiency.</li>
-                <li><strong>GPU:</strong> Nvidia T239 Ampere with 1534 CUDA cores, two RTX ray-tracing cores, and 48 Gen 3 Tensor cores – supporting modern graphical features like ray tracing and AI-enhanced visuals.</li>
-                <li><strong>RAM:</strong> 12 GB of LPDDR5 – allowing for smoother multitasking and improved game performance.</li>
-                <li><strong>Storage:</strong> 256 GB of onboard storage – a major upgrade from the original 32GB, possibly with microSD expansion.</li>
-                <li><strong>Display:</strong> 1080p LED screen – rumored to support a higher refresh rate, improving handheld gaming visuals.</li>
-                <li><strong>Docking Mode:</strong> 4K output when docked, utilizing DLSS technology for enhanced upscaling.</li>
-                <li><strong>Battery Life:</strong> Estimated to last between 6-10 hours depending on usage.</li>
-                <li><strong>Backward Compatibility:</strong> Expected to support existing Switch games, though some reports suggest that certain titles may require patches.</li>
+                <li><strong>CPU:</strong> Arm Cortex-A78C with eight cores.</li>
+                <li><strong>GPU:</strong> Nvidia T239 Ampere with 1534 CUDA cores.</li>
+                <li><strong>RAM:</strong> 12 GB of LPDDR5.</li>
+                <li><strong>Storage:</strong> 256 GB onboard.</li>
+                <li><strong>Display:</strong> 1080p LED screen.</li>
+                <li><strong>Docking Mode:</strong> 4K output with DLSS.</li>
+                <li><strong>Battery Life:</strong> 6-10 hours.</li>
+                <li><strong>Backward Compatibility:</strong> Expected with some title exceptions.</li>
             </ul>
-            <p>While these specs are based on leaks, they suggest a powerful handheld-console hybrid that could rival previous generations of gaming consoles.</p>
         </div>
     </div>
 
     <div class="section" id="updates">
         <h1>Latest Nintendo Updates</h1>
-        <p><strong>As of February 4, 2025</strong>, new information regarding the Nintendo Switch 2 has surfaced. On <strong>January 26, 2024</strong>, Nintendo of America released an official teaser video announcing the next-generation console. While the teaser didn’t reveal everything, it confirmed that the Switch 2 will launch alongside a highly anticipated new title.</p>
-        
-        <h2>Confirmed & Rumored Games</h2>
-        <p>According to leaks and official sources, the Nintendo Switch 2 will launch with an exciting lineup of games. Some of the confirmed and rumored titles include:</p>
-        <ul>
-            <li><strong>Mario Kart 9</strong> (Confirmed) – A brand-new entry in the beloved racing series, promising fresh mechanics, tracks, and online features.</li>
-            <li><strong>The Legend of Zelda: Echoes of Time</strong> (Rumored) – Insiders claim a new Zelda game is in development with enhanced visuals and open-world improvements.</li>
-            <li><strong>Super Mario Odyssey 2</strong> (Rumored) – A potential sequel to the 2017 hit, featuring new kingdoms and power-ups.</li>
-            <li><strong>Metroid Prime 4</strong> (Confirmed) – A long-awaited return for Samus, rebuilt from the ground up for the new hardware.</li>
-            <li><strong>Pokémon Legends: Z-A</strong> (Rumored) – A follow-up to Pokémon Legends: Arceus, focusing on the Kalos region.</li>
-            <li><strong>Animal Crossing: New Frontiers</strong> (Rumored) – A next-gen installment with enhanced multiplayer features.</li>
-        </ul>
-        
-        <h2>Upcoming Announcements</h2>
-        <p>Nintendo has yet to officially reveal all details about the Switch 2, but experts predict that the next major update will come during the <strong>Nintendo Direct event on April 2, 2025</strong>. This presentation may include:</p>
-        <ul>
-            <li>The official release date and pricing details.</li>
-            <li>More launch titles and third-party support.</li>
-            <li>New Joy-Con controller designs with improved drift resistance.</li>
-            <li>Enhanced online services and subscription plans.</li>
-            <li>And More...</li>
-        </ul>
-        <p>As we get closer to the announcement, more leaks and rumors will likely emerge, so stay tuned for updates!</p>
+        <p><strong>As of February 4, 2025</strong>, new info has surfaced. A teaser confirmed the launch alongside a new title.</p>
         <center>
-            <button onclick="window.location.href='https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.youtube.com/watch%3Fv%3DitpcsQQvgAQ&ved=2ahUKEwi97_6Cqs2LAxX7HNAFHes1OlAQwqsBegQIChAG&usg=AOvVaw2Mt7iB8ARiLIj0FNjhQpQI'">NS2 Trailer</button>
+            <button onclick="window.location.href='https://www.youtube.com/watch?v=itpcsQQvgAQ'">NS2 Trailer</button>
         </center>
     </div>
 
     <footer>
-        <p> Nintendo Switch 2 Fan Page. Not affiliated with Nintendo.</p>
+        <p>Nintendo Switch 2 Fan Page. Not affiliated with Nintendo.</p>
     </footer>
 
     <div id="countdown-container">
